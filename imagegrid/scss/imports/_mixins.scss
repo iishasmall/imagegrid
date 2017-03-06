@@ -1,0 +1,47 @@
+
+
+@mixin text-shadow($opacity){
+    text-shadow: 4px 4px 6px rgba(0, 0, 0, $opacity);
+}
+
+@mixin btn-style($width,$height,$padding){
+
+    align-items: flex-start;
+    text-align: center;
+    font-family: "Fira Sans Regular", sans-serif;
+    font-size:.9em;
+    text-transform: uppercase;
+    color:#ffffff;
+    text-shadow: 4px 4px 6px rgba(0, 0, 0, .25);
+    cursor: default;
+    border-radius: 25px;
+    border: 1px solid #1E5799;
+    padding: $padding; 
+    width: $width;
+    height: $height; 
+    cursor:pointer;
+    
+    background: #1e5799; 
+    background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 18%, #7db9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 18%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #1e5799 0%,#2989d8 18%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+}
+
+
+@mixin input-style(){
+
+    font-family: "Fira Sans Regular", sans-serif;
+    -webkit-appearance: textfield;
+    background-color: #ffffff;
+    -webkit-rtl-ordering: logical;
+    user-select: text;
+    cursor: auto;
+    padding: 1px;
+    border: solid 1px #2989d8;
+    background:#fff;
+    width:100px;
+    height:30px;
+    
+
+}
