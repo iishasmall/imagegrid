@@ -8,33 +8,34 @@ let unsplash = new Unsplash({
   callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
 });
 
-var choice = document.getElementById("choice");
-var galleryDiv = document.getElementById("thumb");
-var submitBtn = document.getElementById("submit-btn");
-var imgArray = [];
-var nameArray = [];
-var linkArray = [];
-var idArray = [];
-var gallerySelection="flowers"; // inital gallery choice
-var imgAmount = 20; // amount of images
-var imgPage = 1; // image page number from unsplash
+let choice = document.getElementById("choice");
+let galleryDiv = document.getElementById("thumb");
+let submitBtn = document.getElementById("submit-btn");
+let imgArray = [];
+let nameArray = [];
+let linkArray = [];
+let idArray = [];
+let downloadArray = [];
+let gallerySelection="blue"; // inital gallery choice
+let imgAmount = 20; // amount of images
+let imgPage = 1; // image page number from unsplash
 
-
+// generating random page number
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
 
-
 submitBtn.addEventListener("click",function(){
 
-var randomNum = Math.round(getRandomArbitrary(1, 5));
+let randomNum = Math.round(getRandomArbitrary(1, 5));
    if (galleryDiv.hasChildNodes()){
 
         nameArray = [];
         linkArray = [];
-        imgPage = randomNum;
-        console.log( imgPage+" - this is the page number");
+        downloadArray = [];
+        imgPage = randomNum; 
+       
          while (galleryDiv.firstChild) {
           galleryDiv.removeChild(galleryDiv.firstChild);
           
@@ -52,38 +53,43 @@ var randomNum = Math.round(getRandomArbitrary(1, 5));
 
 function initGallery(gallery){
 
- setTimeout(function(){
-         galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found."
-      },60000);
 
 unsplash.search.photos(gallery, imgPage, imgAmount)
   .then(toJson)
   .then(json => {
       
-     
+      
        if(json.results.length === 0){
         
          galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found."
        }else{
 
-           for (var i=0;i< json.results.length; i ++){
+           for (let i=0;i< json.results.length; i ++){
 
      
-       var thumb = json.results[i].urls.small; // thumbnail image
-       var lgImg = json.results[i].urls.regular; //lg image
-       var userName = json.results[i].user.username; // user name
-       var linkUrl = json.results[i].user.links.html; // link to unsplash homepage
-       var imgId = json.results[i].id; // image id
+       let thumb = json.results[i].urls.small; // thumbnail image
+       let lgImg = json.results[i].urls.regular; //lg image
+       let userName = json.results[i].user.username; // user name
+       let linkUrl = json.results[i].user.links.html; // link to unsplash homepage
+       let imgId = json.results[i].id; // image id
+       let downloadImg = json.results[i].links.download;
+
+     
 
        imgArray.push(lgImg);
        nameArray.push(userName);
        linkArray.push(linkUrl);
+       downloadArray.push(downloadImg);
+
+        
 
        // creating the text information for the thumbnail
-        var textDiv = document.createElement("div");
-        var photoHeader = document.createElement("h1");
-        var photoUrl = document.createElement("p");
-        var photoLink = document.createElement("a");
+        let textDiv = document.createElement("div");
+        let photoHeader = document.createElement("h1");
+        let photoUrl = document.createElement("p");
+        let photoLink = document.createElement("a");
+        let downloadHref = document.createElement("a");
+        let downloadLink = document.createElement("div");
 
         // setting up url link back to unsplash user page
         photoLink.setAttribute('href',linkArray[i]);
@@ -93,16 +99,26 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
         photoLink.id = "url-"+i.toString();
         photoLink.appendChild(photoUrl);
         photoHeader.innerHTML = "photo by - "+ nameArray[i];
-    
+
+       // downloadLink.innerHTML="download image";
+        downloadLink.classList.add('download-img');
+        downloadHref.setAttribute('href',imgArray[i]);
+        downloadHref.setAttribute('target','_blank');
+        downloadHref.setAttribute('src',imgArray[i]);
+        
+        downloadHref.appendChild(downloadLink);
+
         textDiv.classList.add('thumbDescription');
         textDiv.appendChild(photoHeader);
+        textDiv.appendChild(downloadHref);
         textDiv.appendChild(photoLink);
 
+
        // creating the thumbnail
-       var thumbHeight = "300px";
-       var thumbWidth = "300px";
-       var img = document.createElement("img");
-       var imgDiv = document.createElement("div");
+       let thumbHeight = "300px";
+       let thumbWidth = "300px";
+       let img = document.createElement("img");
+       let imgDiv = document.createElement("div");
        img.setAttribute("src",thumb); 
        img.style.objectFit = "cover";
        img.setAttribute("width","300");
@@ -114,13 +130,13 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
        imgDiv.id = i;
        imgDiv.style.display = "inline-block";
        imgDiv.style.overflow = "hidden";
+
+     
        imgDiv.appendChild(img);
        imgDiv.appendChild(textDiv);
   
        galleryDiv.appendChild(imgDiv);
-
-      // console.log(linkArray[i]);
-
+  
      
       
    }

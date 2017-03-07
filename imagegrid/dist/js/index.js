@@ -1,128 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
-
-var _unsplashJs = require("unsplash-js");
-
-var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*  FIY - Note about Unsplash api FAQ the free version of this api only allows 50 calls per hour  */
-var unsplash = new _unsplashJs2.default({
-  applicationId: "7de502692386dd87e239f582371126e5f163efc32b120541b14244d38d4ea833",
-  secret: "204e539a19249fdbe580fc101a54371d7fb8d4a8181880642f21da851360bedd",
-  callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
-});
-
-var choice = document.getElementById("choice");
-var galleryDiv = document.getElementById("thumb");
-var submitBtn = document.getElementById("submit-btn");
-var imgArray = [];
-var nameArray = [];
-var linkArray = [];
-var idArray = [];
-var gallerySelection = "flowers"; // inital gallery choice
-var imgAmount = 20; // amount of images
-var imgPage = 1; // image page number from unsplash
-
-
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-submitBtn.addEventListener("click", function () {
-
-  var randomNum = Math.round(getRandomArbitrary(1, 5));
-  if (galleryDiv.hasChildNodes()) {
-
-    nameArray = [];
-    linkArray = [];
-    imgPage = randomNum;
-    console.log(imgPage + " - this is the page number");
-    while (galleryDiv.firstChild) {
-      galleryDiv.removeChild(galleryDiv.firstChild);
-    }
-  }
-
-  gallerySelection = choice.value.toString();
-  initGallery(gallerySelection);
-});
-
-function initGallery(gallery) {
-
-  setTimeout(function () {
-    galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found.";
-  }, 60000);
-
-  unsplash.search.photos(gallery, imgPage, imgAmount).then(_unsplashJs.toJson).then(function (json) {
-
-    if (json.results.length === 0) {
-
-      galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found.";
-    } else {
-
-      for (var i = 0; i < json.results.length; i++) {
-
-        var thumb = json.results[i].urls.small; // thumbnail image
-        var lgImg = json.results[i].urls.regular; //lg image
-        var userName = json.results[i].user.username; // user name
-        var linkUrl = json.results[i].user.links.html; // link to unsplash homepage
-        var imgId = json.results[i].id; // image id
-
-        imgArray.push(lgImg);
-        nameArray.push(userName);
-        linkArray.push(linkUrl);
-
-        // creating the text information for the thumbnail
-        var textDiv = document.createElement("div");
-        var photoHeader = document.createElement("h1");
-        var photoUrl = document.createElement("p");
-        var photoLink = document.createElement("a");
-
-        // setting up url link back to unsplash user page
-        photoLink.setAttribute('href', linkArray[i]);
-        photoLink.setAttribute('target', '_blank');
-        photoLink.innerHTML = linkArray[i];
-
-        photoLink.id = "url-" + i.toString();
-        photoLink.appendChild(photoUrl);
-        photoHeader.innerHTML = "photo by - " + nameArray[i];
-
-        textDiv.classList.add('thumbDescription');
-        textDiv.appendChild(photoHeader);
-        textDiv.appendChild(photoLink);
-
-        // creating the thumbnail
-        var thumbHeight = "300px";
-        var thumbWidth = "300px";
-        var img = document.createElement("img");
-        var imgDiv = document.createElement("div");
-        img.setAttribute("src", thumb);
-        img.style.objectFit = "cover";
-        img.setAttribute("width", "300");
-        img.setAttribute("height", "300");
-        img.style.padding = "10px";
-
-        imgDiv.style.width = thumbWidth;
-        imgDiv.style.height = thumbHeight;
-        imgDiv.id = i;
-        imgDiv.style.display = "inline-block";
-        imgDiv.style.overflow = "hidden";
-        imgDiv.appendChild(img);
-        imgDiv.appendChild(textDiv);
-
-        galleryDiv.appendChild(imgDiv);
-
-        // console.log(linkArray[i]);
-
-      }
-    }
-  });
-}
-
-initGallery(gallerySelection);
-
-},{"unsplash-js":15}],2:[function(require,module,exports){
 // Filename: formurlencoded.js
 // Timestamp: 2016.01.18-15:36:37 (last modified)
 // Author(s): Bumblehead (www.bumblehead.com), JBlashill (james@blashill.com)
@@ -186,7 +62,7 @@ var formurlencoded = module.exports = function (data, opts) {
   }));
 };
 
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -272,7 +148,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -359,13 +235,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":3,"./encode":4}],6:[function(require,module,exports){
+},{"./decode":2,"./encode":3}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -375,7 +251,7 @@ var API_URL = exports.API_URL = "https://api.unsplash.com";
 var API_VERSION = exports.API_VERSION = "v1";
 var OAUTH_AUTHORIZE_URL = exports.OAUTH_AUTHORIZE_URL = "https://unsplash.com/oauth/authorize";
 var OAUTH_TOKEN_URL = exports.OAUTH_TOKEN_URL = "https://unsplash.com/oauth/token";
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -432,7 +308,7 @@ function auth() {
     }
   };
 }
-},{"../constants":6,"querystring":5}],8:[function(require,module,exports){
+},{"../constants":5,"querystring":4}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -477,7 +353,7 @@ function categories() {
     }
   };
 }
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -627,7 +503,7 @@ function createUpdateCollection(id, title, description, isPrivate) {
     body: body
   });
 }
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -683,7 +559,7 @@ function currentUser() {
     }
   };
 }
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -850,7 +726,7 @@ function photos() {
     }
   };
 }
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -886,7 +762,7 @@ function searcher(url) {
     query: query
   });
 }
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -907,7 +783,7 @@ function stats() {
     }
   };
 }
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -985,7 +861,7 @@ function users() {
     }
   };
 }
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1075,7 +951,7 @@ exports.default = Unsplash;
 function toJson(res) {
   return typeof res.json === "function" ? res.json() : res;
 }
-},{"./constants":6,"./methods/auth":7,"./methods/categories":8,"./methods/collections":9,"./methods/currentUser":10,"./methods/photos":11,"./methods/search":12,"./methods/stats":13,"./methods/users":14,"./utils":16}],16:[function(require,module,exports){
+},{"./constants":5,"./methods/auth":6,"./methods/categories":7,"./methods/collections":8,"./methods/currentUser":9,"./methods/photos":10,"./methods/search":11,"./methods/stats":12,"./methods/users":13,"./utils":15}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1128,4 +1004,137 @@ function buildFetchOptions(options) {
     }
   };
 }
-},{"form-urlencoded":2,"querystring":5}]},{},[1]);
+},{"form-urlencoded":1,"querystring":4}],16:[function(require,module,exports){
+"use strict";
+
+var _unsplashJs = require("unsplash-js");
+
+var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*  FIY - Note about Unsplash api FAQ the free version of this api only allows 50 calls per hour  */
+var unsplash = new _unsplashJs2.default({
+  applicationId: "7de502692386dd87e239f582371126e5f163efc32b120541b14244d38d4ea833",
+  secret: "204e539a19249fdbe580fc101a54371d7fb8d4a8181880642f21da851360bedd",
+  callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
+});
+
+var choice = document.getElementById("choice");
+var galleryDiv = document.getElementById("thumb");
+var submitBtn = document.getElementById("submit-btn");
+var imgArray = [];
+var nameArray = [];
+var linkArray = [];
+var idArray = [];
+var downloadArray = [];
+var gallerySelection = "blue"; // inital gallery choice
+var imgAmount = 20; // amount of images
+var imgPage = 1; // image page number from unsplash
+
+// generating random page number
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+submitBtn.addEventListener("click", function () {
+
+  var randomNum = Math.round(getRandomArbitrary(1, 5));
+  if (galleryDiv.hasChildNodes()) {
+
+    nameArray = [];
+    linkArray = [];
+    downloadArray = [];
+    imgPage = randomNum;
+
+    while (galleryDiv.firstChild) {
+      galleryDiv.removeChild(galleryDiv.firstChild);
+    }
+  }
+
+  gallerySelection = choice.value.toString();
+  initGallery(gallerySelection);
+});
+
+function initGallery(gallery) {
+
+  unsplash.search.photos(gallery, imgPage, imgAmount).then(_unsplashJs.toJson).then(function (json) {
+
+    if (json.results.length === 0) {
+
+      galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found.";
+    } else {
+
+      for (var i = 0; i < json.results.length; i++) {
+
+        var thumb = json.results[i].urls.small; // thumbnail image
+        var lgImg = json.results[i].urls.regular; //lg image
+        var userName = json.results[i].user.username; // user name
+        var linkUrl = json.results[i].user.links.html; // link to unsplash homepage
+        var imgId = json.results[i].id; // image id
+        var downloadImg = json.results[i].links.download;
+
+        imgArray.push(lgImg);
+        nameArray.push(userName);
+        linkArray.push(linkUrl);
+        downloadArray.push(downloadImg);
+
+        // creating the text information for the thumbnail
+        var textDiv = document.createElement("div");
+        var photoHeader = document.createElement("h1");
+        var photoUrl = document.createElement("p");
+        var photoLink = document.createElement("a");
+        var downloadHref = document.createElement("a");
+        var downloadLink = document.createElement("div");
+
+        // setting up url link back to unsplash user page
+        photoLink.setAttribute('href', linkArray[i]);
+        photoLink.setAttribute('target', '_blank');
+        photoLink.innerHTML = linkArray[i];
+
+        photoLink.id = "url-" + i.toString();
+        photoLink.appendChild(photoUrl);
+        photoHeader.innerHTML = "photo by - " + nameArray[i];
+
+        // downloadLink.innerHTML="download image";
+        downloadLink.classList.add('download-img');
+        downloadHref.setAttribute('href', imgArray[i]);
+        downloadHref.setAttribute('target', '_blank');
+        downloadHref.setAttribute('src', imgArray[i]);
+
+        downloadHref.appendChild(downloadLink);
+
+        textDiv.classList.add('thumbDescription');
+        textDiv.appendChild(photoHeader);
+        textDiv.appendChild(downloadHref);
+        textDiv.appendChild(photoLink);
+
+        // creating the thumbnail
+        var thumbHeight = "300px";
+        var thumbWidth = "300px";
+        var img = document.createElement("img");
+        var imgDiv = document.createElement("div");
+        img.setAttribute("src", thumb);
+        img.style.objectFit = "cover";
+        img.setAttribute("width", "300");
+        img.setAttribute("height", "300");
+        img.style.padding = "10px";
+
+        imgDiv.style.width = thumbWidth;
+        imgDiv.style.height = thumbHeight;
+        imgDiv.id = i;
+        imgDiv.style.display = "inline-block";
+        imgDiv.style.overflow = "hidden";
+
+        imgDiv.appendChild(img);
+        imgDiv.appendChild(textDiv);
+
+        galleryDiv.appendChild(imgDiv);
+      }
+    }
+  });
+}
+
+initGallery(gallerySelection);
+
+},{"unsplash-js":14}]},{},[16]);

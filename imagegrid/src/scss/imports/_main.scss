@@ -33,17 +33,31 @@ body{
    }
 
    p{
-      text-align:left;
+      
+      
       display:inline-block;
       font-size:.9em;
-      padding-top: 230px;
+      //padding-top: 220px;
+      margin-left:20px;
+      
    }
 
+   a{
+       position:absolute;
+       position: absolute;
+        top: 250px;
+        left: 60px;
+       font-size:.9em;
+       display:inline-block;
+       
+       
+   }
    a:active,a:hover,a:link,a:visited{
     color:$linkColor;
     font-size:.7em;
     text-decoration:none;
     @include text-shadow(.5);
+     
    }
 }
 
@@ -68,6 +82,21 @@ body{
 #choice{
     @include input-style();
 }
+
+
+.download-img{
+    position: relative;
+    left: 40px;
+    top: -140px;
+    background: url(../svg/download.svg) no-repeat;
+    background-position: 0 0;
+    background-size: 70px 70px;
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    padding-top: 10px;
+}
+
 
 
 

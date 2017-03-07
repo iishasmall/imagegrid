@@ -2,6 +2,8 @@ import gulp from 'gulp';
 import browserify from 'browserify';
 import browserSync from 'browser-sync';
 import sass from 'gulp-sass';
+import polyfiller from 'gulp-polyfiller';
+import concat from 'gulp-concat';
 import fs from 'fs';
 
 import Unsplash from 'unsplash-js';
@@ -39,6 +41,12 @@ const sassOpts = { outputStyle: 'compressed', errLogToConsole: true }; // "let" 
 		server: './dist',
 		browser: "google chrome"
 	})
+
+   gulp.src(jsOutput)
+    
+       polyfiller
+        .bundle(['Promise', 'Fetch'])
+        .pipe(gulp.dest('./dist/js/polyfills'));
 
    gulp.watch(sassSource, ['sass'])
    gulp.watch(htmlSource).on('change', browserSync.reload);
