@@ -1023,6 +1023,8 @@ var unsplash = new _unsplashJs2.default({
 var choice = document.getElementById("choice");
 var galleryDiv = document.getElementById("thumb");
 var submitBtn = document.getElementById("submit-btn");
+var errorDiv = document.createElement("div");
+var errorContainer = document.getElementById("error-container");
 var imgArray = [];
 var nameArray = [];
 var linkArray = [];
@@ -1064,8 +1066,16 @@ function initGallery(gallery) {
 
     if (json.results.length === 0) {
 
-      galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found.";
+      var errorMsg = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found.";
+      errorDiv.innerHTML = errorMsg;
+      errorDiv.id = "error-div";
+      errorDiv.classList.add("error-div");
+      errorContainer.appendChild(errorDiv);
     } else {
+
+      if (errorContainer.contains(errorDiv)) {
+        errorContainer.removeChild(errorDiv);
+      }
 
       for (var i = 0; i < json.results.length; i++) {
 

@@ -11,6 +11,8 @@ let unsplash = new Unsplash({
 let choice = document.getElementById("choice");
 let galleryDiv = document.getElementById("thumb");
 let submitBtn = document.getElementById("submit-btn");
+let errorDiv = document.createElement("div");
+let errorContainer = document.getElementById("error-container");
 let imgArray = [];
 let nameArray = [];
 let linkArray = [];
@@ -61,10 +63,18 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
       console.log(json.results);
       
        if(json.results.length === 0){
-        
-         galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found."
+       
+        let errorMsg = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found."
+        errorDiv.innerHTML = errorMsg;
+        errorDiv.id = "error-div";
+        errorDiv.classList.add("error-div");
+         errorContainer.appendChild(errorDiv);
        }else{
 
+         if(errorContainer.contains(errorDiv)){
+            errorContainer.removeChild(errorDiv);
+         }
+       
            for (let i=0;i< json.results.length; i ++){
 
      
@@ -74,18 +84,13 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
        let linkUrl = json.results[i].user.links.html; // link to unsplash homepage
        let imgId = json.results[i].id; // image id
        let downloadImg = json.results[i].links.download; // download images link
-      
-
-     
+   
 
        imgArray.push(lgImg);
        nameArray.push(userName);
        linkArray.push(linkUrl);
        downloadArray.push(downloadImg);
        
-
-        
-
        // creating the text information for the thumbnail
         let textDiv = document.createElement("div");
         let photoHeader = document.createElement("h1");
