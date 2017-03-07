@@ -7,12 +7,12 @@ import fs from 'fs';
 import Unsplash from 'unsplash-js';
 
 const sassSource = './src/scss/**/*.scss';
-const sassOutput = './css';
+const sassOutput = './dist/css';
 
 const jsSource = './src/js/index.js';
-const jsOutput = './js/index.js';
+const jsOutput = './dist/js/index.js';
 
-const htmlSource = "./index.html";
+const htmlSource = "./dist/index.html";
 
 const sassOpts = { outputStyle: 'compressed', errLogToConsole: true }; // "let" and "const"!!
  
@@ -36,7 +36,7 @@ const sassOpts = { outputStyle: 'compressed', errLogToConsole: true }; // "let" 
  gulp.task('default', ['sass','jsx'], () => { 
 
    browserSync.init({
-		server: './',
+		server: './dist',
 		browser: "google chrome"
 	})
 
