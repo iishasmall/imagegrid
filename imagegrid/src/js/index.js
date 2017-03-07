@@ -58,6 +58,7 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
   .then(toJson)
   .then(json => {
       
+      console.log(json.results);
       
        if(json.results.length === 0){
         
@@ -72,7 +73,8 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
        let userName = json.results[i].user.username; // user name
        let linkUrl = json.results[i].user.links.html; // link to unsplash homepage
        let imgId = json.results[i].id; // image id
-       let downloadImg = json.results[i].links.download;
+       let downloadImg = json.results[i].links.download; // download images link
+      
 
      
 
@@ -80,6 +82,7 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
        nameArray.push(userName);
        linkArray.push(linkUrl);
        downloadArray.push(downloadImg);
+       
 
         
 
@@ -90,6 +93,7 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
         let photoLink = document.createElement("a");
         let downloadHref = document.createElement("a");
         let downloadLink = document.createElement("div");
+        let imgCopy = document.createElement("p");
 
         // setting up url link back to unsplash user page
         photoLink.setAttribute('href',linkArray[i]);
@@ -100,17 +104,17 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
         photoLink.appendChild(photoUrl);
         photoHeader.innerHTML = "photo by - "+ nameArray[i];
 
-       // downloadLink.innerHTML="download image";
+       
         downloadLink.classList.add('download-img');
-        downloadHref.setAttribute('href',imgArray[i]);
-        downloadHref.setAttribute('target','_blank');
-        downloadHref.setAttribute('src',imgArray[i]);
-        
-        downloadHref.appendChild(downloadLink);
+        imgCopy.classList.add('img-copy');
+        imgCopy.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar id enim eu mattis. "
+       
 
         textDiv.classList.add('thumbDescription');
-        textDiv.appendChild(photoHeader);
-        textDiv.appendChild(downloadHref);
+        
+        downloadLink.appendChild(photoHeader)
+         downloadLink.appendChild(imgCopy);
+        textDiv.appendChild(downloadLink);
         textDiv.appendChild(photoLink);
 
 
@@ -141,11 +145,12 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
       
    }
 
+ 
 
        }
    
     
-   
+    
   
     });
 

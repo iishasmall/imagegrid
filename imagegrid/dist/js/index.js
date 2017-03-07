@@ -1060,6 +1060,8 @@ function initGallery(gallery) {
 
   unsplash.search.photos(gallery, imgPage, imgAmount).then(_unsplashJs.toJson).then(function (json) {
 
+    console.log(json.results);
+
     if (json.results.length === 0) {
 
       galleryDiv.innerHTML = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found.";
@@ -1072,7 +1074,8 @@ function initGallery(gallery) {
         var userName = json.results[i].user.username; // user name
         var linkUrl = json.results[i].user.links.html; // link to unsplash homepage
         var imgId = json.results[i].id; // image id
-        var downloadImg = json.results[i].links.download;
+        var downloadImg = json.results[i].links.download; // download images link
+
 
         imgArray.push(lgImg);
         nameArray.push(userName);
@@ -1086,6 +1089,7 @@ function initGallery(gallery) {
         var photoLink = document.createElement("a");
         var downloadHref = document.createElement("a");
         var downloadLink = document.createElement("div");
+        var imgCopy = document.createElement("p");
 
         // setting up url link back to unsplash user page
         photoLink.setAttribute('href', linkArray[i]);
@@ -1096,17 +1100,15 @@ function initGallery(gallery) {
         photoLink.appendChild(photoUrl);
         photoHeader.innerHTML = "photo by - " + nameArray[i];
 
-        // downloadLink.innerHTML="download image";
         downloadLink.classList.add('download-img');
-        downloadHref.setAttribute('href', imgArray[i]);
-        downloadHref.setAttribute('target', '_blank');
-        downloadHref.setAttribute('src', imgArray[i]);
-
-        downloadHref.appendChild(downloadLink);
+        imgCopy.classList.add('img-copy');
+        imgCopy.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar id enim eu mattis. ";
 
         textDiv.classList.add('thumbDescription');
-        textDiv.appendChild(photoHeader);
-        textDiv.appendChild(downloadHref);
+
+        downloadLink.appendChild(photoHeader);
+        downloadLink.appendChild(imgCopy);
+        textDiv.appendChild(downloadLink);
         textDiv.appendChild(photoLink);
 
         // creating the thumbnail

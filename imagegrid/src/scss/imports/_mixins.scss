@@ -4,6 +4,23 @@
     text-shadow: 4px 4px 6px rgba(0, 0, 0, $opacity);
 }
 
+
+@mixin fade-in(){
+  
+  opacity: 1;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
+
+@mixin fade-out(){
+  opacity: 0;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
 @mixin btn-style($width,$height,$padding){
 
     align-items: flex-start;
