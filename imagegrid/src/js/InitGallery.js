@@ -1,18 +1,11 @@
-import Unsplash, { toJson } from "unsplash-js";
 
 
-/*  FIY - Note about Unsplash api FAQ the free version of this api only allows 50 calls per hour  */
-let unsplash = new Unsplash({
-  applicationId: "7de502692386dd87e239f582371126e5f163efc32b120541b14244d38d4ea833",
-  secret: "204e539a19249fdbe580fc101a54371d7fb8d4a8181880642f21da851360bedd",
-  callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
-});
-
+export function startGallery (json,document){
+  
 let choice = document.getElementById("choice");
 let galleryDiv = document.getElementById("thumb");
 let submitBtn = document.getElementById("submit-btn");
 let errorDiv = document.createElement("div");
-let errorContainer = document.getElementById("error-container");
 let imgArray = [];
 let nameArray = [];
 let linkArray = [];
@@ -22,60 +15,22 @@ let gallerySelection="blue"; // inital gallery choice
 let imgAmount = 20; // amount of images
 let imgPage = 1; // image page number from unsplash
 
-// generating random page number
-let getRandomArbitrary = (min, max) => {
-  return Math.random() * (max - min) + min;
-}
+//let errorContainer = document.getElementById("error-container");
 
-
-submitBtn.addEventListener('click', evt =>{
-
-let randomNum = Math.round(getRandomArbitrary(1, 5));
-   if (galleryDiv.hasChildNodes()){
-
-        nameArray = [];
-        linkArray = [];
-        downloadArray = [];
-        imgPage = randomNum; 
-       
-         while (galleryDiv.firstChild) {
-          galleryDiv.removeChild(galleryDiv.firstChild);
-          
-         }
-        
-        
-        
-   }
-
-    gallerySelection = choice.value.toString();
-   initGallery(gallerySelection);
-});
-
-
-
-let initGallery = (gallery) => {
-
-
-unsplash.search.photos(gallery, imgPage, imgAmount)
-  .then(toJson)
-  .then(json => {
-      
-      console.log(json.results);
-      
-       if(json.results.length === 0){
+  /* if(json.results.length === 0){
        
         let errorMsg = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found."
         errorDiv.innerHTML = errorMsg;
         errorDiv.id = "error-div";
         errorDiv.classList.add("error-div");
-         errorContainer.appendChild(errorDiv);
+        errorContainer.appendChild(errorDiv);
        }else{
 
          if(errorContainer.contains(errorDiv)){
-            errorContainer.removeChild(errorDiv);
-         }
+           errorContainer.removeChild(errorDiv);
+         } */
        
-           for (let i=0;i< json.results.length; i ++){
+         for (let i=0;i< json.results.length; i ++){
 
      
        let thumb = json.results[i].urls.small; // thumbnail image
@@ -140,25 +95,19 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
        imgDiv.style.display = "inline-block";
        imgDiv.style.overflow = "hidden";
 
-     
-       imgDiv.appendChild(img);
+     imgDiv.appendChild(img);
        imgDiv.appendChild(textDiv);
-  
-       galleryDiv.appendChild(imgDiv);
-  
      
+      galleryDiv.appendChild(imgDiv);
       
    }
 
- 
 
-       }
+  
+  
+   // return   galleryDiv.appendChild(imgDiv);
+  
+       
    
     
-    
-  
-    });
-
-}
-
-initGallery(gallerySelection);
+};

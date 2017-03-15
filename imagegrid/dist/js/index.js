@@ -1035,11 +1035,11 @@ var imgAmount = 20; // amount of images
 var imgPage = 1; // image page number from unsplash
 
 // generating random page number
-function getRandomArbitrary(min, max) {
+var getRandomArbitrary = function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
-}
+};
 
-submitBtn.addEventListener("click", function () {
+submitBtn.addEventListener('click', function (evt) {
 
   var randomNum = Math.round(getRandomArbitrary(1, 5));
   if (galleryDiv.hasChildNodes()) {
@@ -1058,7 +1058,7 @@ submitBtn.addEventListener("click", function () {
   initGallery(gallerySelection);
 });
 
-function initGallery(gallery) {
+var initGallery = function initGallery(gallery) {
 
   unsplash.search.photos(gallery, imgPage, imgAmount).then(_unsplashJs.toJson).then(function (json) {
 
@@ -1145,7 +1145,7 @@ function initGallery(gallery) {
       }
     }
   });
-}
+};
 
 initGallery(gallerySelection);
 
