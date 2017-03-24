@@ -1005,11 +1005,71 @@ function buildFetchOptions(options) {
   };
 }
 },{"form-urlencoded":1,"querystring":4}],16:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Log = function Log(msg) {
+  _classCallCheck(this, Log);
+
+  console.log(msg);
+};
+
+exports.default = Log;
+
+},{}],17:[function(require,module,exports){
+"use strict";
+
+// this generates a random Number
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var RandomNum = function () {
+    function RandomNum(min, max) {
+        _classCallCheck(this, RandomNum);
+
+        this._min = min;
+        this._max = max;
+    }
+
+    _createClass(RandomNum, [{
+        key: "getNum",
+        value: function getNum() {
+
+            return Math.random() * (this._max - this._min) + this._min;
+        }
+    }]);
+
+    return RandomNum;
+}();
+
+exports.default = RandomNum;
+
+},{}],18:[function(require,module,exports){
 "use strict";
 
 var _unsplashJs = require("unsplash-js");
 
 var _unsplashJs2 = _interopRequireDefault(_unsplashJs);
+
+var _Log = require("./Log");
+
+var _Log2 = _interopRequireDefault(_Log);
+
+var _RandomNum = require("./RandomNum");
+
+var _RandomNum2 = _interopRequireDefault(_RandomNum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1034,14 +1094,12 @@ var gallerySelection = "blue"; // inital gallery choice
 var imgAmount = 20; // amount of images
 var imgPage = 1; // image page number from unsplash
 
-// generating random page number
-var getRandomArbitrary = function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-};
 
 submitBtn.addEventListener('click', function (evt) {
+  var randNum = new _RandomNum2.default(1, 5);
 
-  var randomNum = Math.round(getRandomArbitrary(1, 5));
+  var randomNum = Math.round(randNum.getNum());
+
   if (galleryDiv.hasChildNodes()) {
 
     nameArray = [];
@@ -1062,11 +1120,11 @@ var initGallery = function initGallery(gallery) {
 
   unsplash.search.photos(gallery, imgPage, imgAmount).then(_unsplashJs.toJson).then(function (json) {
 
-    console.log(json.results);
+    var newlog = new _Log2.default(json.results);
 
     if (json.results.length === 0) {
 
-      var errorMsg = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found.";
+      var errorMsg = "errorMsgHere";
       errorDiv.innerHTML = errorMsg;
       errorDiv.id = "error-div";
       errorDiv.classList.add("error-div");
@@ -1112,7 +1170,7 @@ var initGallery = function initGallery(gallery) {
 
         downloadLink.classList.add('download-img');
         imgCopy.classList.add('img-copy');
-        imgCopy.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar id enim eu mattis. ";
+        imgCopy.innerHTML = " photo description text";
 
         textDiv.classList.add('thumbDescription');
 
@@ -1140,7 +1198,6 @@ var initGallery = function initGallery(gallery) {
 
         imgDiv.appendChild(img);
         imgDiv.appendChild(textDiv);
-
         galleryDiv.appendChild(imgDiv);
       }
     }
@@ -1149,4 +1206,4 @@ var initGallery = function initGallery(gallery) {
 
 initGallery(gallerySelection);
 
-},{"unsplash-js":14}]},{},[16]);
+},{"./Log":16,"./RandomNum":17,"unsplash-js":14}]},{},[18]);

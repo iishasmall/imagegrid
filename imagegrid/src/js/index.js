@@ -1,4 +1,6 @@
 import Unsplash, { toJson } from "unsplash-js";
+import Log from "./Log";
+import RandomNum from "./RandomNum";
 
 
 /*  FIY - Note about Unsplash api FAQ the free version of this api only allows 50 calls per hour  */
@@ -22,15 +24,13 @@ let gallerySelection="blue"; // inital gallery choice
 let imgAmount = 20; // amount of images
 let imgPage = 1; // image page number from unsplash
 
-// generating random page number
-let getRandomArbitrary = (min, max) => {
-  return Math.random() * (max - min) + min;
-}
 
 
 submitBtn.addEventListener('click', evt =>{
+let randNum = new RandomNum(1,5);
 
-let randomNum = Math.round(getRandomArbitrary(1, 5));
+let randomNum = Math.round(randNum.getNum());
+
    if (galleryDiv.hasChildNodes()){
 
         nameArray = [];
@@ -43,7 +43,7 @@ let randomNum = Math.round(getRandomArbitrary(1, 5));
           
          }
         
-        
+    
         
    }
 
@@ -60,11 +60,13 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
   .then(toJson)
   .then(json => {
       
-      console.log(json.results);
+      const newlog = new Log(json.results);
+      
       
        if(json.results.length === 0){
        
-        let errorMsg = "Gallery could not be created the server may have reached its allotment of being called 50 times or gallery could not be found."
+       
+        let errorMsg = "errorMsgHere";
         errorDiv.innerHTML = errorMsg;
         errorDiv.id = "error-div";
         errorDiv.classList.add("error-div");
@@ -112,7 +114,7 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
        
         downloadLink.classList.add('download-img');
         imgCopy.classList.add('img-copy');
-        imgCopy.innerHTML = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In pulvinar id enim eu mattis. "
+        imgCopy.innerHTML = " photo description text";
        
 
         textDiv.classList.add('thumbDescription');
@@ -140,17 +142,16 @@ unsplash.search.photos(gallery, imgPage, imgAmount)
        imgDiv.style.display = "inline-block";
        imgDiv.style.overflow = "hidden";
 
-     
        imgDiv.appendChild(img);
        imgDiv.appendChild(textDiv);
-  
        galleryDiv.appendChild(imgDiv);
+     
   
      
       
    }
 
- 
+    
 
        }
    
